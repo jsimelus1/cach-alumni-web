@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CACH Alumni Club</title>
+<title>CACH Alumni Club | Official Site</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -12,6 +12,9 @@
     --dark: #0D1B2A;
     --dark-mid: #1A2E45;
     --cream: #F5F0E8;
+    --cream-dark: #EDE5D0;
+    --text: #2C2C2C;
+    --red: #8B1A1A;
     --shadow: 0 4px 10px rgba(0,0,0,0.5);
   }
 
@@ -22,10 +25,11 @@
     color: var(--cream);
     font-family: 'Lato', sans-serif;
     min-height: 100vh;
+    line-height: 1.6;
   }
 
-  /* --- HEADER (LOGO LEFT) --- */
-  header {
+  /* --- HEADER --- */
+  header.main-header {
     background: linear-gradient(135deg, var(--dark) 0%, var(--dark-mid) 100%);
     border-bottom: 1px solid rgba(201,168,76,0.3);
     padding: 20px 5%;
@@ -37,332 +41,210 @@
     z-index: 100;
   }
 
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .header-logo {
-    width: 80px; /* Scaled for side-positioning */
-    height: auto;
-  }
-
-  .header-content { text-align: left; }
-
-  .header-ornament {
-    font-size: 14px; /* Increased size as requested */
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-
-  header h1 {
+  .header-left { display: flex; align-items: center; gap: 20px; }
+  .header-logo { width: 70px; height: auto; }
+  .header-ornament h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    color: var(--gold-light);
-    line-height: 1;
+    font-size: 1.5rem; color: var(--gold-light); letter-spacing: 1px;
   }
 
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 10px;
-  }
-
+  nav ul { list-style: none; display: flex; gap: 5px; }
   nav a {
-    text-decoration: none;
-    color: var(--cream);
-    font-size: 12px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-weight: 700;
-    padding: 8px 12px;
-    border: 1px solid transparent;
-    transition: 0.3s;
-    cursor: pointer;
+    text-decoration: none; color: var(--cream);
+    font-size: 11px; letter-spacing: 1.5px;
+    text-transform: uppercase; font-weight: 700;
+    padding: 10px 15px; border: 1px solid transparent;
+    transition: 0.3s; cursor: pointer;
   }
+  nav a:hover, nav a.active { border-color: var(--gold); color: var(--gold-light); }
 
-  nav a:hover, nav a.active {
-    border-color: var(--gold);
-    color: var(--gold-light);
-  }
-
-  /* --- MAIN CONTENT --- */
-  main {
-    padding: 60px 20px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
+  /* --- LAYOUT --- */
+  main { padding: 60px 20px; max-width: 1100px; margin: 0 auto; }
   .page { display: none; } 
-  .page.active { display: block; animation: fadeIn 0.5s ease-in; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .page.active { display: block; animation: fadeIn 0.6s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
   .section-title {
     font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    color: var(--gold-light);
-    margin-bottom: 40px;
-    text-align: center;
+    font-size: 2.8rem; color: var(--gold-light);
+    margin-bottom: 40px; text-align: center;
   }
 
-  .content-block p {
-    margin-bottom: 20px;
-    line-height: 1.8;
-    font-size: 1.1rem;
-    font-weight: 300;
-  }
+  .content-block { max-width: 800px; margin: 0 auto; }
+  .content-block p { margin-bottom: 25px; font-size: 1.15rem; font-weight: 300; text-align: justify; }
 
   /* --- COMMITTEE GRID --- */
-  .committee-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
-  }
+  .committee-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 40px; }
+  .committee-member { background: var(--dark-mid); border: 1px solid rgba(201,168,76,0.1); padding: 30px 20px; text-align: center; box-shadow: var(--shadow); transition: 0.3s; }
+  .committee-member:hover { border-color: var(--gold); transform: translateY(-5px); }
+  .member-photo { width: 110px; height: 110px; border-radius: 50%; border: 2px solid var(--gold); margin: 0 auto 20px; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--gold); }
+  .member-name { font-weight: 700; color: var(--gold-light); font-size: 1.1rem; }
+  .member-role { font-size: 11px; text-transform: uppercase; color: var(--cream); opacity: 0.7; margin-top: 5px; letter-spacing: 1px; }
 
-  .committee-member {
-    background: var(--dark-mid);
-    border: 1px solid rgba(201,168,76,0.1);
-    padding: 25px;
-    text-align: center;
-    box-shadow: var(--shadow);
-  }
+  /* --- REUNION SPECIFIC --- */
+  .event-details-compact { display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; margin-bottom: 40px; }
+  .event-detail { text-align: center; }
+  .event-detail .label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 8px; }
+  .event-detail .value { font-size: 1.2rem; font-weight: 300; }
 
-  .member-photo {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 2px solid var(--gold);
-    margin: 0 auto 15px;
-    background: rgba(0,0,0,0.2);
+  .fee-banner {
+    background: linear-gradient(135deg, var(--red), #610e0e);
+    border: 1px solid var(--gold); padding: 25px; text-align: center;
+    margin: 0 auto 50px; max-width: 500px; border-radius: 2px;
   }
-
-  .member-name { font-weight: 700; color: var(--gold-light); }
-  .member-role { font-size: 12px; text-transform: uppercase; color: var(--cream); opacity: 0.8; }
-
-  /* --- REUNION PAGE (STYLED TO MATCH FORMS) --- */
-  .event-info-box {
-    background: rgba(201,168,76,0.05);
-    padding: 30px;
-    border: 1px solid rgba(201,168,76,0.2);
-    margin-bottom: 40px;
-  }
-
-  .detail-row {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .detail-label {
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold-light);
-    font-weight: 700;
-  }
-
-  .detail-value {
-    font-size: 16px;
-    color: white; /* Matching input text color */
-    font-weight: 400;
-  }
+  .fee-banner .fee-amount { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #fff; }
 
   /* --- FORMS --- */
-  form {
-    background: var(--dark-mid);
-    border: 1px solid rgba(201,168,76,0.2);
-    padding: 35px;
-    box-shadow: var(--shadow);
-  }
-
-  .form-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
-
-  label {
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold-light);
-    font-weight: 700;
-  }
-
+  .form-container { max-width: 750px; margin: 0 auto; background: rgba(255,255,255,0.02); padding: 40px; border: 1px solid rgba(255,255,255,0.05); }
+  .form-section-title { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 25px; border-bottom: 1px solid rgba(201,168,76,0.2); padding-bottom: 10px; }
+  .form-group { margin-bottom: 25px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  
+  label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); display: block; margin-bottom: 10px; }
   input, select, textarea {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(201,168,76,0.3);
-    color: white;
-    padding: 14px;
-    font-family: inherit;
+    width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(201,168,76,0.3);
+    color: white; padding: 14px; font-family: inherit; border-radius: 2px; outline: none;
   }
+  input:focus { border-color: var(--gold); background: rgba(255,255,255,0.1); }
 
-  .btn {
-    background: linear-gradient(135deg, var(--gold), var(--gold-light));
-    border: none;
-    color: var(--dark);
-    padding: 18px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  .tshirt-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 5px;
-  }
-
+  .tshirt-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
   .tshirt-option input { display: none; }
   .tshirt-option label {
-    border: 1px solid rgba(201,168,76,0.3);
-    padding: 10px;
-    text-align: center;
-    cursor: pointer;
-    font-size: 12px;
+    border: 1px solid rgba(201,168,76,0.3); height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s;
+  }
+  .tshirt-option input:checked + label { background: var(--gold); color: var(--dark); border-color: var(--gold); font-weight: bold; }
+
+  .btn-action {
+    background: transparent; border: 1px solid var(--gold); color: var(--gold);
+    padding: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px;
+    cursor: pointer; width: 100%; transition: 0.3s; margin-top: 10px;
+  }
+  .btn-action:hover { background: var(--gold); color: var(--dark); }
+
+  .submit-btn {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border: none; color: var(--dark); padding: 20px; font-weight: 900;
+    letter-spacing: 4px; text-transform: uppercase; cursor: pointer; width: 100%;
   }
 
-  .tshirt-option input:checked + label {
-    background: var(--gold);
-    color: var(--dark);
+  /* --- LIST AREA --- */
+  .added-list { margin-top: 40px; padding-top: 20px; border-top: 1px dashed rgba(201,168,76,0.3); }
+  .participant-entry {
+    background: rgba(255,255,255,0.05); padding: 15px 20px; margin-bottom: 12px;
+    display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--gold);
   }
+  .participant-info strong { color: var(--gold-light); display: block; }
+  .participant-info small { opacity: 0.7; text-transform: uppercase; font-size: 10px; }
+  .remove-p { color: #ff5555; cursor: pointer; font-size: 11px; font-weight: 700; text-transform: uppercase; }
 
-  footer { text-align: center; padding: 50px; font-size: 12px; opacity: 0.5; }
+  footer { text-align: center; padding: 60px 20px; font-size: 12px; opacity: 0.4; border-top: 1px solid rgba(201,168,76,0.1); margin-top: 50px; }
 
-  @media (max-width: 900px) {
-    header { flex-direction: column; gap: 20px; text-align: center; }
+  @media (max-width: 768px) {
     .header-left { flex-direction: column; text-align: center; }
-    nav ul { flex-wrap: wrap; justify-content: center; }
+    .form-row { grid-template-columns: 1fr; }
+    .tshirt-grid { grid-template-columns: repeat(3, 1fr); }
+    .section-title { font-size: 2rem; }
   }
 </style>
 </head>
 <body>
 
-<header>
+<header class="main-header">
   <div class="header-left">
-    <img src="Final_Logo.png" alt="Logo" class="header-logo">
-    <div class="header-content">
-      <div class="header-ornament">✦ COLLÈGE ADVENTISTE DU CAP-HAÏTIEN ✦</div>
-      <h1>Alumni Club</h1>
-    </div>
+    <img src="Final_Logo.png" alt="CACH Logo" class="header-logo">
+    <div class="header-ornament"><h1>Alumni CACH</h1></div>
   </div>
   <nav>
     <ul>
       <li><a class="active" onclick="showPage('home')">Home</a></li>
-      <li><a onclick="showPage('about')">About Us</a></li>
+      <li><a onclick="showPage('about')">Comité</a></li>
       <li><a onclick="showPage('reunion')">Reunion 2026</a></li>
-      <li><a onclick="showPage('contact')">Contact Us</a></li>
+      <li><a onclick="showPage('contact')">Contact</a></li>
     </ul>
   </nav>
 </header>
 
 <main>
   <section id="home" class="page active">
-    <h2 class="section-title">A Legacy of Excellence</h2>
+    <h2 class="section-title">Un Héritage d'Excellence</h2>
     <div class="content-block">
-      <p>The CACH Alumni Club is more than a social network; it is the heartbeat of our shared history. Since its founding, the Collège Adventiste du Cap-Haïtien has been a beacon of academic rigor and spiritual formation. Our club exists to ensure that the flame lit during our school years continues to burn brightly across the globe, uniting graduates from every generation.</p>
-      
-      <p>We believe that our collective success is a reflection of the foundation laid at CACH. By bringing together professionals, leaders, and visionaries, we create a ecosystem of mentorship and opportunity. Whether you graduated recently or decades ago, you belong to a family that spans continents and industries, all bound by the same values of service and integrity.</p>
-      
-      <p>Through our annual gatherings, scholarship initiatives, and campus support projects, we aim to give back to the institution that gave us so much. We invite you to explore our upcoming events, reconnect with lost classmates, and join us in building a future that honors the heritage of CACH.</p>
+      <p>Le Club des Alumni du CACH est le cœur battant de notre histoire commune. Depuis sa fondation, le Collège Adventiste du Cap-Haïtien a été un phare de rigueur académique et de formation spirituelle. Notre club existe pour veiller à ce que la flamme allumée durant nos années d'école continue de briller intensément à travers le monde.</p>
+      <p>Nous sommes convaincus que notre réussite collective est le reflet des fondations posées au CACH. En rassemblant des professionnels, des leaders et des visionnaires, nous créons un écosystème de mentorat et d'opportunités.</p>
+      <p>À travers nos rencontres annuelles et nos projets de soutien au campus, nous visons à redonner à l'institution qui nous a tant apporté. Nous vous invitons à renouer avec d'anciens camarades de classe et à bâtir un avenir qui honore l'héritage du CACH.</p>
     </div>
   </section>
 
   <section id="about" class="page">
-    <h2 class="section-title">Leadership Team</h2>
+    <h2 class="section-title">Comité Exécutif</h2>
     <div class="committee-grid">
-      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Dr. William Jean-Charles</p><p class="member-role">President</p></div>
-      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Jeanine JL Extrat</p><p class="member-role">Vice President</p></div>
-      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Joel Orius</p><p class="member-role">Treasurer</p></div>
-      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Toussenel Charles</p><p class="member-role">Under-Treasurer</p></div>
-      <div class="committee-member"><div class="member-photo"></div><p class="member-name">James Simelus</p><p class="member-role">Secretary</p></div>
-      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Rose M Guillaume</p><p class="member-role">Under-Secretary</p></div>
-      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Dr. Wilkienson Cadet</p><p class="member-role">Alumni Coordinator</p></div>
-      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Gary Camille</p><p class="member-role">Counselor</p></div>
-      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Germanie M Michel</p><p class="member-role">Event Planner Coordinator</p></div>
+      <div class="committee-member"><div class="member-photo">W</div><p class="member-name">Dr. William Jean-Charles</p><p class="member-role">Président</p></div>
+      <div class="committee-member"><div class="member-photo">J</div><p class="member-name">Jeanine JL Extrat</p><p class="member-role">Vice Présidente</p></div>
+      <div class="committee-member"><div class="member-photo">J</div><p class="member-name">Joel Orius</p><p class="member-role">Trésorier</p></div>
+      <div class="committee-member"><div class="member-photo">T</div><p class="member-name">Toussenel Charles</p><p class="member-role">Trésorier-Adjoint</p></div>
+      <div class="committee-member"><div class="member-photo">J</div><p class="member-name">James Simélus</p><p class="member-role">Secrétaire</p></div>
+      <div class="committee-member"><div class="member-photo">R</div><p class="member-name">Rose M Guillaume</p><p class="member-role">Secrétaire-Adjointe</p></div>
+      <div class="committee-member"><div class="member-photo">W</div><p class="member-name">Dr. Wilkienson Cadet</p><p class="member-role">Coordinateur</p></div>
+      <div class="committee-member"><div class="member-photo">G</div><p class="member-name">Gary Camille</p><p class="member-role">Conseiller</p></div>
     </div>
   </section>
 
   <section id="reunion" class="page">
-    <h2 class="section-title">Reunion Day 2026</h2>
+    <h2 class="section-title">Retrouvailles 2026</h2>
     
-    <div class="event-info-box">
-      <div class="detail-row">
-        <span class="detail-label">DATE</span>
-        <span class="detail-value">Saturday — Sept 5, 2026</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">PLACE</span>
-        <span class="detail-value">Coral Springs, FL</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">COST</span>
-        <span class="detail-value">$50.00 USD</span>
-      </div>
+    <div class="event-details-compact">
+      <div class="event-detail"><span class="label">DATE</span><span class="value">Samedi 5 Sept, 2026</span></div>
+      <div class="event-detail"><span class="label">LIEU</span><span class="value">Coral Springs, FL</span></div>
     </div>
 
-    <form id="registrationForm">
+    <div class="fee-banner">
+      <div class="fee-label">FRAIS PAR PARTICIPANT</div>
+      <div class="fee-amount">$50.00 USD</div>
+    </div>
+
+    <div class="form-container">
+      <h3 class="form-section-title">01. Enregistrer un participant</h3>
+      <div class="form-row">
+        <div class="form-group"><label>Prénom</label><input type="text" id="fname" placeholder="First Name"></div>
+        <div class="form-group"><label>Nom</label><input type="text" id="lname" placeholder="Last Name"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="email@exemple.com"></div>
+        <div class="form-group"><label>Promo / Status</label><select id="promotion"></select></div>
+      </div>
       <div class="form-group">
-        <label>Full Name / Nom Complet</label>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-          <input type="text" id="fname" placeholder="First Name" required>
-          <input type="text" id="lname" placeholder="Last Name" required>
+        <label>Taille de T-Shirt</label>
+        <div class="tshirt-grid" id="tshirtContainer">
+          <div class="tshirt-option"><input type="radio" name="tsize" id="xs" value="XS"><label for="xs">XS</label></div>
+          <div class="tshirt-option"><input type="radio" name="tsize" id="s" value="S"><label for="s">S</label></div>
+          <div class="tshirt-option"><input type="radio" name="tsize" id="m" value="M"><label for="m">M</label></div>
+          <div class="tshirt-option"><input type="radio" name="tsize" id="l" value="L"><label for="l">L</label></div>
+          <div class="tshirt-option"><input type="radio" name="tsize" id="xl" value="XL"><label for="xl">XL</label></div>
+          <div class="tshirt-option"><input type="radio" name="tsize" id="xxl" value="XXL"><label for="xxl">XXL</label></div>
         </div>
       </div>
-      
-      <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" id="regEmail" required>
-      </div>
+      <button type="button" class="btn-action" onclick="addParticipant()">Ajoutez vos participants/Soumettre votre enregistrement</button>
 
-      <div class="form-group">
-        <label>How many people are you coming with? (Excluding yourself)</label>
-        <input type="number" id="guestCount" min="0" value="0" required>
+      <div id="summaryArea" class="added-list" style="display:none;">
+        <h3 class="form-section-title">Récapitulatif de l'inscription</h3>
+        <div id="participantList"></div>
+        <form id="finalForm">
+          <button type="submit" class="submit-btn" style="margin-top:30px;">Confirmer & Enregistrer tout</button>
+        </form>
       </div>
-
-      <div class="form-group">
-        <label>Graduation Year</label>
-        <select id="promotion" required></select>
-      </div>
-
-      <div class="form-group">
-        <label>T-Shirt Size</label>
-        <div class="tshirt-grid">
-          <div class="tshirt-option"><input type="radio" name="tshirt" id="xs" value="XS" required><label for="xs">XS</label></div>
-          <div class="tshirt-option"><input type="radio" name="tshirt" id="sm" value="S"><label for="sm">S</label></div>
-          <div class="tshirt-option"><input type="radio" name="tshirt" id="md" value="M"><label for="md">M</label></div>
-          <div class="tshirt-option"><input type="radio" name="tshirt" id="lg" value="L"><label for="lg">L</label></div>
-          <div class="tshirt-option"><input type="radio" name="tshirt" id="xl" value="XL"><label for="xl">XL</label></div>
-          <div class="tshirt-option"><input type="radio" name="tshirt" id="xxl" value="XXL"><label for="xxl">XXL</label></div>
-        </div>
-      </div>
-
-      <button type="submit" class="btn">Register & Save</button>
-      <div id="regStatus" style="text-align:center; margin-top:15px; font-weight: bold;"></div>
-    </form>
+      <div id="regStatus" style="text-align:center; margin-top:20px;"></div>
+    </div>
   </section>
 
   <section id="contact" class="page">
-    <h2 class="section-title">Contact Us</h2>
-    <form name="contact" method="POST" data-netlify="true">
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" name="name" required>
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" name="email" required>
-      </div>
-      <div class="form-group">
-        <label>Message</label>
-        <textarea name="message" rows="6" required></textarea>
-      </div>
-      <button type="submit" class="btn">Send Message</button>
-    </form>
+    <h2 class="section-title">Nous Contacter</h2>
+    <div class="form-container">
+      <form name="contact" method="POST" data-netlify="true">
+        <div class="form-group"><label>Nom Complet</label><input type="text" name="name" required></div>
+        <div class="form-group"><label>Email</label><input type="email" name="email" required></div>
+        <div class="form-group"><label>Message</label><textarea name="message" rows="5" required></textarea></div>
+        <button type="submit" class="submit-btn">Envoyer le Message</button>
+      </form>
+    </div>
   </section>
 </main>
 
@@ -371,53 +253,117 @@
 </footer>
 
 <script>
-function showPage(pageId) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-  document.getElementById(pageId).classList.add('active');
-  const activeLink = Array.from(document.querySelectorAll('nav a')).find(a => a.innerText.toLowerCase().includes(pageId === 'reunion' ? 'reunion' : pageId));
-  if(activeLink) activeLink.classList.add('active');
-  window.scrollTo(0,0);
-}
+  let participants = [];
 
-// Year Populator
-const sel = document.getElementById('promotion');
-for (let y = 2026; y >= 1960; y--) {
-  const opt = document.createElement('option');
-  opt.value = y; opt.textContent = y;
-  sel.appendChild(opt);
-}
-
-// Form Submission to Neon
-document.getElementById('registrationForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const status = document.getElementById('regStatus');
-  status.innerText = "Processing...";
-
-  const data = {
-    firstname: document.getElementById('fname').value,
-    lastname: document.getElementById('lname').value,
-    email: document.getElementById('regEmail').value,
-    guests: document.getElementById('guestCount').value,
-    tshirt: document.querySelector('input[name="tshirt"]:checked').value,
-    year: document.getElementById('promotion').value
-  };
-
-  try {
-    const response = await fetch('/.netlify/functions/register', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    });
-    if (response.ok) {
-      status.style.color = "var(--gold)";
-      status.innerText = "Registration Successful! See you in 2026.";
-      e.target.reset();
-    } else { throw new Error(); }
-  } catch (err) {
-    status.style.color = "red";
-    status.innerText = "Error connecting to database.";
+  // Navigation
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    
+    const activeLink = Array.from(document.querySelectorAll('nav a')).find(a => 
+      a.getAttribute('onclick').includes(pageId)
+    );
+    if(activeLink) activeLink.classList.add('active');
+    window.scrollTo(0,0);
   }
-});
+
+  // Populate Graduation Year Dropdown
+  const promoSelect = document.getElementById('promotion');
+  ["Invité(e)", "Conjoint(e)", "Enfant"].forEach(st => {
+    let o = document.createElement('option'); o.value = st; o.textContent = st;
+    promoSelect.appendChild(o);
+  });
+  for (let y = 2026; y >= 1960; y--) {
+    let o = document.createElement('option'); o.value = y; o.textContent = "Promo " + y;
+    promoSelect.appendChild(o);
+  }
+
+  // Logic: Add Participant to Local Array
+  function addParticipant() {
+    const fn = document.getElementById('fname').value;
+    const ln = document.getElementById('lname').value;
+    const em = document.getElementById('regEmail').value;
+    const pr = document.getElementById('promotion').value;
+    const ts = document.querySelector('input[name="tsize"]:checked');
+
+    if(!fn || !ln || !ts) {
+      alert("Veuillez remplir les informations du participant (Nom, Prénom et Taille).");
+      return;
+    }
+
+    const person = {
+      firstname: fn,
+      lastname: ln,
+      email: em || "N/A",
+      year: pr,
+      tshirt: ts.value
+    };
+
+    participants.push(person);
+    renderList();
+    clearInputs();
+  }
+
+  function clearInputs() {
+    document.getElementById('fname').value = '';
+    document.getElementById('lname').value = '';
+    document.getElementById('regEmail').value = '';
+    document.getElementById('promotion').selectedIndex = 0;
+    const checkedTs = document.querySelector('input[name="tsize"]:checked');
+    if(checkedTs) checkedTs.checked = false;
+  }
+
+  function renderList() {
+    const listDiv = document.getElementById('participantList');
+    const summary = document.getElementById('summaryArea');
+    listDiv.innerHTML = '';
+
+    participants.forEach((p, index) => {
+      const div = document.createElement('div');
+      div.className = 'participant-entry';
+      div.innerHTML = `
+        <div class="participant-info">
+          <strong>${p.firstname} ${p.lastname}</strong>
+          <small>${p.year} • Taille: ${p.tshirt}</small>
+        </div>
+        <div class="remove-p" onclick="removeP(${index})">Supprimer</div>
+      `;
+      listDiv.appendChild(div);
+    });
+
+    summary.style.display = participants.length > 0 ? 'block' : 'none';
+  }
+
+  function removeP(i) {
+    participants.splice(i, 1);
+    renderList();
+  }
+
+  // Final Submit to Backend
+  document.getElementById('finalForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const status = document.getElementById('regStatus');
+    status.innerHTML = "<em>Enregistrement de la liste en cours...</em>";
+
+    try {
+      const response = await fetch('/.netlify/functions/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ group: participants })
+      });
+
+      if (response.ok) {
+        status.style.color = "var(--gold-light)";
+        status.innerHTML = "<strong>Succès ! Vos participants sont enregistrés.</strong>";
+        participants = [];
+        renderList();
+      } else { throw new Error(); }
+    } catch (err) {
+      status.style.color = "#ff6b6b";
+      status.innerText = "Erreur technique lors de l'enregistrement.";
+    }
+  });
 </script>
 </body>
 </html>
