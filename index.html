@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CACH Alumni Club</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --dark: #0D1B2A;
+    --dark-mid: #1A2E45;
+    --cream: #F5F0E8;
+    --shadow: 0 4px 10px rgba(0,0,0,0.5);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--dark);
+    color: var(--cream);
+    font-family: 'Lato', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* --- HEADER (LOGO LEFT) --- */
+  header {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--dark-mid) 100%);
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    padding: 20px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .header-logo {
+    width: 80px; /* Scaled for side-positioning */
+    height: auto;
+  }
+
+  .header-content { text-align: left; }
+
+  .header-ornament {
+    font-size: 14px; /* Increased size as requested */
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 10px;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--cream);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+
+  nav a:hover, nav a.active {
+    border-color: var(--gold);
+    color: var(--gold-light);
+  }
+
+  /* --- MAIN CONTENT --- */
+  main {
+    padding: 60px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .page { display: none; } 
+  .page.active { display: block; animation: fadeIn 0.5s ease-in; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--gold-light);
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  .content-block p {
+    margin-bottom: 20px;
+    line-height: 1.8;
+    font-size: 1.1rem;
+    font-weight: 300;
+  }
+
+  /* --- COMMITTEE GRID --- */
+  .committee-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+  }
+
+  .committee-member {
+    background: var(--dark-mid);
+    border: 1px solid rgba(201,168,76,0.1);
+    padding: 25px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+
+  .member-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    margin: 0 auto 15px;
+    background: rgba(0,0,0,0.2);
+  }
+
+  .member-name { font-weight: 700; color: var(--gold-light); }
+  .member-role { font-size: 12px; text-transform: uppercase; color: var(--cream); opacity: 0.8; }
+
+  /* --- REUNION PAGE (STYLED TO MATCH FORMS) --- */
+  .event-info-box {
+    background: rgba(201,168,76,0.05);
+    padding: 30px;
+    border: 1px solid rgba(201,168,76,0.2);
+    margin-bottom: 40px;
+  }
+
+  .detail-row {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .detail-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    font-weight: 700;
+  }
+
+  .detail-value {
+    font-size: 16px;
+    color: white; /* Matching input text color */
+    font-weight: 400;
+  }
+
+  /* --- FORMS --- */
+  form {
+    background: var(--dark-mid);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 35px;
+    box-shadow: var(--shadow);
+  }
+
+  .form-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
+
+  label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    font-weight: 700;
+  }
+
+  input, select, textarea {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: white;
+    padding: 14px;
+    font-family: inherit;
+  }
+
+  .btn {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border: none;
+    color: var(--dark);
+    padding: 18px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .tshirt-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+  }
+
+  .tshirt-option input { display: none; }
+  .tshirt-option label {
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  .tshirt-option input:checked + label {
+    background: var(--gold);
+    color: var(--dark);
+  }
+
+  footer { text-align: center; padding: 50px; font-size: 12px; opacity: 0.5; }
+
+  @media (max-width: 900px) {
+    header { flex-direction: column; gap: 20px; text-align: center; }
+    .header-left { flex-direction: column; text-align: center; }
+    nav ul { flex-wrap: wrap; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <img src="Final_Logo.png" alt="Logo" class="header-logo">
+    <div class="header-content">
+      <div class="header-ornament">✦ COLLÈGE ADVENTISTE DU CAP-HAÏTIEN ✦</div>
+      <h1>Alumni Club</h1>
+    </div>
+  </div>
+  <nav>
+    <ul>
+      <li><a class="active" onclick="showPage('home')">Home</a></li>
+      <li><a onclick="showPage('about')">About Us</a></li>
+      <li><a onclick="showPage('reunion')">Reunion 2026</a></li>
+      <li><a onclick="showPage('contact')">Contact Us</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section id="home" class="page active">
+    <h2 class="section-title">A Legacy of Excellence</h2>
+    <div class="content-block">
+      <p>The CACH Alumni Club is more than a social network; it is the heartbeat of our shared history. Since its founding, the Collège Adventiste du Cap-Haïtien has been a beacon of academic rigor and spiritual formation. Our club exists to ensure that the flame lit during our school years continues to burn brightly across the globe, uniting graduates from every generation.</p>
+      
+      <p>We believe that our collective success is a reflection of the foundation laid at CACH. By bringing together professionals, leaders, and visionaries, we create a ecosystem of mentorship and opportunity. Whether you graduated recently or decades ago, you belong to a family that spans continents and industries, all bound by the same values of service and integrity.</p>
+      
+      <p>Through our annual gatherings, scholarship initiatives, and campus support projects, we aim to give back to the institution that gave us so much. We invite you to explore our upcoming events, reconnect with lost classmates, and join us in building a future that honors the heritage of CACH.</p>
+    </div>
+  </section>
+
+  <section id="about" class="page">
+    <h2 class="section-title">Leadership Team</h2>
+    <div class="committee-grid">
+      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Dr. William Jean-Charles</p><p class="member-role">President</p></div>
+      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Jeanine JL Extrat</p><p class="member-role">Vice President</p></div>
+      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Joel Orius</p><p class="member-role">Treasurer</p></div>
+      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Toussenel Charles</p><p class="member-role">Under-Treasurer</p></div>
+      <div class="committee-member"><div class="member-photo"></div><p class="member-name">James Simelus</p><p class="member-role">Secretary</p></div>
+      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Rose M</p><p class="member-role">Under-Secretary</p></div>
+      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Dr. Wilkienson Cadet</p><p class="member-role">Alumni Coordinator</p></div>
+      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Gary</p><p class="member-role">Counselor</p></div>
+      <div class="committee-member"><div class="member-photo"></div><p class="member-name">Germanie M Michel</p><p class="member-role">Event Planner</p></div>
+    </div>
+  </section>
+
+  <section id="reunion" class="page">
+    <h2 class="section-title">Reunion Day 2026</h2>
+    
+    <div class="event-info-box">
+      <div class="detail-row">
+        <span class="detail-label">DATE</span>
+        <span class="detail-value">Saturday — Sept 5, 2026</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">PLACE</span>
+        <span class="detail-value">Coral Springs, FL</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">COST</span>
+        <span class="detail-value">$50.00 USD</span>
+      </div>
+    </div>
+
+    <form id="registrationForm">
+      <div class="form-group">
+        <label>Full Name / Nom Complet</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <input type="text" id="fname" placeholder="First Name" required>
+          <input type="text" id="lname" placeholder="Last Name" required>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="regEmail" required>
+      </div>
+
+      <div class="form-group">
+        <label>How many people are you coming with? (Excluding yourself)</label>
+        <input type="number" id="guestCount" min="0" value="0" required>
+      </div>
+
+      <div class="form-group">
+        <label>Graduation Year</label>
+        <select id="promotion" required></select>
+      </div>
+
+      <div class="form-group">
+        <label>T-Shirt Size</label>
+        <div class="tshirt-grid">
+          <div class="tshirt-option"><input type="radio" name="tshirt" id="xs" value="XS" required><label for="xs">XS</label></div>
+          <div class="tshirt-option"><input type="radio" name="tshirt" id="sm" value="S"><label for="sm">S</label></div>
+          <div class="tshirt-option"><input type="radio" name="tshirt" id="md" value="M"><label for="md">M</label></div>
+          <div class="tshirt-option"><input type="radio" name="tshirt" id="lg" value="L"><label for="lg">L</label></div>
+          <div class="tshirt-option"><input type="radio" name="tshirt" id="xl" value="XL"><label for="xl">XL</label></div>
+          <div class="tshirt-option"><input type="radio" name="tshirt" id="xxl" value="XXL"><label for="xxl">XXL</label></div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Register & Save</button>
+      <div id="regStatus" style="text-align:center; margin-top:15px; font-weight: bold;"></div>
+    </form>
+  </section>
+
+  <section id="contact" class="page">
+    <h2 class="section-title">Contact Us</h2>
+    <form name="contact" method="POST" data-netlify="true">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" required>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea name="message" rows="6" required></textarea>
+      </div>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </section>
+</main>
+
+<footer>
+  © 2026 Club des Alumni du Collège Adventiste du Cap-Haïtien (C.A.C.H.)
+</footer>
+
+<script>
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  const activeLink = Array.from(document.querySelectorAll('nav a')).find(a => a.innerText.toLowerCase().includes(pageId === 'reunion' ? 'reunion' : pageId));
+  if(activeLink) activeLink.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// Year Populator
+const sel = document.getElementById('promotion');
+for (let y = 2026; y >= 1960; y--) {
+  const opt = document.createElement('option');
+  opt.value = y; opt.textContent = y;
+  sel.appendChild(opt);
+}
+
+// Form Submission to Neon
+document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const status = document.getElementById('regStatus');
+  status.innerText = "Processing...";
+
+  const data = {
+    firstname: document.getElementById('fname').value,
+    lastname: document.getElementById('lname').value,
+    email: document.getElementById('regEmail').value,
+    guests: document.getElementById('guestCount').value,
+    tshirt: document.querySelector('input[name="tshirt"]:checked').value,
+    year: document.getElementById('promotion').value
+  };
+
+  try {
+    const response = await fetch('/.netlify/functions/register', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+    if (response.ok) {
+      status.style.color = "var(--gold)";
+      status.innerText = "Registration Successful! See you in 2026.";
+      e.target.reset();
+    } else { throw new Error(); }
+  } catch (err) {
+    status.style.color = "red";
+    status.innerText = "Error connecting to database.";
+  }
+});
+</script>
+</body>
+</html>
