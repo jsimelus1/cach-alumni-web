@@ -12,21 +12,36 @@ exports.handler = async (event) => {
     });
 
     try {
-        await client.connect();
-        
-        // 2. Save to Database
-        await client.query(
-            'INSERT INTO registrations (firstname, lastname, email, tshirt) VALUES ($1, $2, $3, $4)',
-            [firstname, lastname, email, tshirt]
-        );
+    const data = JSON.parse(event.body);
+    const participants = data.group; // From your HTML script
 
-        // 3. Simple email logic (using a free service like Formspree or Netlify's built in notification)
-        // For simplicity, we trigger a successful response. 
-        // Instructions below explain how to enable the auto-email in Netlify.
+    await client.connect();
 
-        await client.end();
-        return { statusCode: 200, body: JSON.stringify({ message: "Saved" }) };
-    } catch (err) {
-        return { statusCode: 500, body: err.toString() };
+    // Prepare the SQL query for multiple inserts
+    // We use a loop or an unnest approach. A loop is easiest for small batches.
+    for (const p of participants) {
+      const query = `
+        INSERT INTO participants (firstname, lastname, email, year, tshirt)
+        VALUES ($1, $2, $3, $4, $5)
+      `;
+      const values = [p.firstname, p.lastname, p.email, p.year, p.tshirt];
+      await client.query(query, values);
     }
+
+    await client.end();
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: "Success! All participants saved to Neon." })
+    };
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    if (client) await client.end();
+    
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Could not save to database." })
+    };
+  }
 };
