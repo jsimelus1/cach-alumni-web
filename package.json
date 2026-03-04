@@ -1,0 +1,13 @@
+{
+  "name": "cach-alumni-club",
+  "version": "1.0.0",
+  "description": "CACH Alumni Club Website",
+  "main": "index.html",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.0",
+    "pg": "^8.11.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
