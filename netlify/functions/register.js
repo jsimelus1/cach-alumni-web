@@ -1,57 +1,44 @@
-// netlify/functions/register.js
-exports.handler = async (event, context) => {
-  // Only allow POST requests
+const { Client } = require('pg'); // Or @neondatabase/serverless
+
+exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
+  // Nile connection string from Netlify Environment Variables
+  const client = new Client({
+    connectionString: process.env.NILE_DATABASE_URL,
+    ssl: { rejectUnauthorized: false } 
+  });
+
   try {
     const data = JSON.parse(event.body);
-    const participants = data.group; // This matches the 'group' key in your HTML script
+    const participants = data.group;
 
-    // Airtable Configuration (Set these in Netlify UI)
-    const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
-    const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
-    const AIRTABLE_TABLE_NAME = "Table 1"; // Or whatever your table is named
+    await client.connect();
 
-    // We map your JS objects to the format Airtable expects
-    const records = participants.map(p => ({
-      fields: {
-        firstname: p.firstname,
-        lastname: p.lastname,
-        email: p.email,
-        year: p.year,
-        tshirt: p.tshirt
-      }
-    }));
-
-    // Send data to Airtable (Airtable allows max 10 records per request)
-    const response = await fetch(
-      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ records: records })
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Airtable API error: ${response.status}`);
+    // Loop through and insert each participant
+    for (const p of participants) {
+      const query = `
+        INSERT INTO participants (firstname, lastname, email, year, tshirt)
+        VALUES ($1, $2, $3, $4, $5)
+      `;
+      await client.query(query, [p.firstname, p.lastname, p.email, p.year, p.tshirt]);
     }
+
+    await client.end();
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Participants registered successfully!" })
+      body: JSON.stringify({ message: "Success" })
     };
 
   } catch (error) {
-    console.error(error);
+    console.error("Nile DB Error:", error.message);
+    if (client) await client.end();
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Failed to store data" })
+      body: JSON.stringify({ error: error.message })
     };
   }
 };
