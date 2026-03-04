@@ -1,167 +1,84 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CACH Alumni Club | Official Site</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --gold: #C9A84C;
-    --gold-light: #E8C97A;
-    --dark: #0D1B2A;
-    --dark-mid: #1A2E45;
-    --cream: #F5F0E8;
-    --cream-dark: #EDE5D0;
-    --text: #2C2C2C;
-    --red: #8B1A1A;
-    --shadow: 0 4px 10px rgba(0,0,0,0.5);
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Des Alumni Du CACH</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { background-color: #0d1117; color: white; font-family: sans-serif; }
+        
+        /* Header Branding */
+        .header-branding {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 30px 0 10px 0;
+        }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Logo 2x Size */
+        .header-logo {
+            height: 120px; /* Adjust this to exactly 2x your previous height */
+            width: auto;
+        }
 
-  body {
-    background-color: var(--dark);
-    color: var(--cream);
-    font-family: 'Lato', sans-serif;
-    min-height: 100vh;
-    line-height: 1.6;
-  }
+        /* Title on one line */
+        .header-title {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #D4AF37; /* Gold theme */
+            margin: 0;
+            white-space: nowrap;
+        }
 
-  /* --- HEADER --- */
-  header.main-header {
-    background: linear-gradient(135deg, var(--dark) 0%, var(--dark-mid) 100%);
-    border-bottom: 1px solid rgba(201,168,76,0.3);
-    padding: 20px 5%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
+        /* Navigation Bar below branding */
+        .header-nav {
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            margin-bottom: 40px;
+        }
 
-  .header-left { display: flex; align-items: center; gap: 20px; }
-  .header-logo { width: 70px; height: auto; }
-  .header-ornament h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem; color: var(--gold-light); letter-spacing: 1px;
-  }
+        .nav-links {
+            list-style: none;
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 0;
+        }
 
-  nav ul { list-style: none; display: flex; gap: 5px; }
-  nav a {
-    text-decoration: none; color: var(--cream);
-    font-size: 11px; letter-spacing: 1.5px;
-    text-transform: uppercase; font-weight: 700;
-    padding: 10px 15px; border: 1px solid transparent;
-    transition: 0.3s; cursor: pointer;
-  }
-  nav a:hover, nav a.active { border-color: var(--gold); color: var(--gold-light); }
+        .nav-links a {
+            color: #D4AF37;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-  /* --- LAYOUT --- */
-  main { padding: 60px 20px; max-width: 1100px; margin: 0 auto; }
-  .page { display: none; } 
-  .page.active { display: block; animation: fadeIn 0.6s ease-out; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .nav-links a:hover { color: white; }
 
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.8rem; color: var(--gold-light);
-    margin-bottom: 40px; text-align: center;
-  }
-
-  .content-block { max-width: 800px; margin: 0 auto; }
-  .content-block p { margin-bottom: 25px; font-size: 1.15rem; font-weight: 300; text-align: justify; }
-
-  /* --- COMMITTEE GRID --- */
-  .committee-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 40px; }
-  .committee-member { background: var(--dark-mid); border: 1px solid rgba(201,168,76,0.1); padding: 30px 20px; text-align: center; box-shadow: var(--shadow); transition: 0.3s; }
-  .committee-member:hover { border-color: var(--gold); transform: translateY(-5px); }
-  .member-photo { width: 110px; height: 110px; border-radius: 50%; border: 2px solid var(--gold); margin: 0 auto 20px; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--gold); }
-  .member-name { font-weight: 700; color: var(--gold-light); font-size: 1.1rem; }
-  .member-role { font-size: 11px; text-transform: uppercase; color: var(--cream); opacity: 0.7; margin-top: 5px; letter-spacing: 1px; }
-
-  /* --- REUNION SPECIFIC --- */
-  .event-details-compact { display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; margin-bottom: 40px; }
-  .event-detail { text-align: center; }
-  .event-detail .label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 8px; }
-  .event-detail .value { font-size: 1.2rem; font-weight: 300; }
-
-  .fee-banner {
-    background: linear-gradient(135deg, var(--red), #610e0e);
-    border: 1px solid var(--gold); padding: 25px; text-align: center;
-    margin: 0 auto 50px; max-width: 500px; border-radius: 2px;
-  }
-  .fee-banner .fee-amount { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #fff; }
-
-  /* --- FORMS --- */
-  .form-container { max-width: 750px; margin: 0 auto; background: rgba(255,255,255,0.02); padding: 40px; border: 1px solid rgba(255,255,255,0.05); }
-  .form-section-title { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 25px; border-bottom: 1px solid rgba(201,168,76,0.2); padding-bottom: 10px; }
-  .form-group { margin-bottom: 25px; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  
-  label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); display: block; margin-bottom: 10px; }
-  input, select, textarea {
-    width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(201,168,76,0.3);
-    color: white; padding: 14px; font-family: inherit; border-radius: 2px; outline: none;
-  }
-  input:focus { border-color: var(--gold); background: rgba(255,255,255,0.1); }
-
-  .tshirt-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
-  .tshirt-option input { display: none; }
-  .tshirt-option label {
-    border: 1px solid rgba(201,168,76,0.3); height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s;
-  }
-  .tshirt-option input:checked + label { background: var(--gold); color: var(--dark); border-color: var(--gold); font-weight: bold; }
-
-  .btn-action {
-    background: transparent; border: 1px solid var(--gold); color: var(--gold);
-    padding: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px;
-    cursor: pointer; width: 100%; transition: 0.3s; margin-top: 10px;
-  }
-  .btn-action:hover { background: var(--gold); color: var(--dark); }
-
-  .submit-btn {
-    background: linear-gradient(135deg, var(--gold), var(--gold-light));
-    border: none; color: var(--dark); padding: 20px; font-weight: 900;
-    letter-spacing: 4px; text-transform: uppercase; cursor: pointer; width: 100%;
-  }
-
-  /* --- LIST AREA --- */
-  .added-list { margin-top: 40px; padding-top: 20px; border-top: 1px dashed rgba(201,168,76,0.3); }
-  .participant-entry {
-    background: rgba(255,255,255,0.05); padding: 15px 20px; margin-bottom: 12px;
-    display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--gold);
-  }
-  .participant-info strong { color: var(--gold-light); display: block; }
-  .participant-info small { opacity: 0.7; text-transform: uppercase; font-size: 10px; }
-  .remove-p { color: #ff5555; cursor: pointer; font-size: 11px; font-weight: 700; text-transform: uppercase; }
-
-  footer { text-align: center; padding: 60px 20px; font-size: 12px; opacity: 0.4; border-top: 1px solid rgba(201,168,76,0.1); margin-top: 50px; }
-
-  @media (max-width: 768px) {
-    .header-left { flex-direction: column; text-align: center; }
-    .form-row { grid-template-columns: 1fr; }
-    .tshirt-grid { grid-template-columns: repeat(3, 1fr); }
-    .section-title { font-size: 2rem; }
-  }
-</style>
+        /* Building Image Styling */
+        .building-img {
+            margin-top: 30px;
+            border: 2px solid #D4AF37; /* Gold border to match theme */
+        }
+    </style>
 </head>
 <body>
 
-<header class="main-header">
-  <div class="header-left">
-    <img src="Final_Logo.png" alt="CACH Logo" class="header-logo">
-    <div class="header-ornament"><h1>Club Des Alumni Du CACH</h1></div>
-  </div>
-  <nav>
-    <ul>
-      <li><a class="active" onclick="showPage('home')">Home</a></li>
-      <li><a onclick="showPage('about')">Comité</a></li>
-      <li><a onclick="showPage('reunion')">Reunion 2026</a></li>
-      <li><a onclick="showPage('contact')">Contact</a></li>
-    </ul>
-  </nav>
+<header class="container">
+    <div class="header-branding">
+        <img src="logo.png" alt="Logo CACH" class="header-logo">
+        <h1 class="header-title">Club Des Alumni Du CACH</h1>
+    </div>
+
+    <nav class="header-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="reunion.html">Réunion 2026</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
 </header>
 
 <main>
