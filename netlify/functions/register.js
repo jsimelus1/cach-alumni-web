@@ -1,6 +1,4 @@
 // netlify/functions/register.js
-const axios = require('axios');
-
 exports.handler = async (event, context) => {
   // Only allow POST requests
   if (event.httpMethod !== "POST") {
@@ -28,16 +26,21 @@ exports.handler = async (event, context) => {
     }));
 
     // Send data to Airtable (Airtable allows max 10 records per request)
-    await axios.post(
+    const response = await fetch(
       `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`,
-      { records: records },
       {
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${AIRTABLE_API_KEY}`,
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({ records: records })
       }
     );
+
+    if (!response.ok) {
+      throw new Error(`Airtable API error: ${response.status}`);
+    }
 
     return {
       statusCode: 200,
