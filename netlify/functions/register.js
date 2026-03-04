@@ -1,45 +1,54 @@
-const { Client } = require('@neondatabase/serverless');
+// netlify/functions/register.js
+const axios = require('axios');
 
 exports.handler = async (event, context) => {
+  // Only allow POST requests
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-  });
-
   try {
     const data = JSON.parse(event.body);
-    // Use the key 'group' because that is what your HTML fetch sends
-    const participants = data.group; 
+    const participants = data.group; // This matches the 'group' key in your HTML script
 
-    console.log("Attempting to save participants:", participants.length);
+    // Airtable Configuration (Set these in Netlify UI)
+    const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
+    const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
+    const AIRTABLE_TABLE_NAME = "Table 1"; // Or whatever your table is named
 
-    await client.connect();
+    // We map your JS objects to the format Airtable expects
+    const records = participants.map(p => ({
+      fields: {
+        firstname: p.firstname,
+        lastname: p.lastname,
+        email: p.email,
+        year: p.year,
+        tshirt: p.tshirt
+      }
+    }));
 
-    for (const p of participants) {
-      // Use public.participants to avoid schema errors
-      const query = `
-        INSERT INTO public.participants (firstname, lastname, email, year, tshirt)
-        VALUES ($1, $2, $3, $4, $5)
-      `;
-      const values = [p.firstname, p.lastname, p.email, p.year, p.tshirt];
-      await client.query(query, values);
-    }
+    // Send data to Airtable (Airtable allows max 10 records per request)
+    await axios.post(
+      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`,
+      { records: records },
+      {
+        headers: {
+          Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
 
-    await client.end();
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Success" })
+      body: JSON.stringify({ message: "Participants registered successfully!" })
     };
 
   } catch (error) {
-    console.error("DETAILED ERROR:", error.message);
-    if (client) await client.end();
+    console.error(error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message })
+      body: JSON.stringify({ error: "Failed to store data" })
     };
   }
 };
