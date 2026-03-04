@@ -21,9 +21,9 @@ exports.handler = async (event) => {
     // We use a loop or an unnest approach. A loop is easiest for small batches.
     for (const p of participants) {
       const query = `
-        INSERT INTO participants (firstname, lastname, email, year, tshirt)
+        INSERT INTO public.participants (firstname, lastname, email, year, tshirt)
         VALUES ($1, $2, $3, $4, $5)
-      `;
+    `;
       const values = [p.firstname, p.lastname, p.email, p.year, p.tshirt];
       await client.query(query, values);
     }
