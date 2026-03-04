@@ -45,7 +45,7 @@
     padding: 20px 0;
   }
   .header-logo {
-    height: 100px;
+    height: 200px;
     width: auto;
   }
   .header-title {
@@ -190,12 +190,72 @@
 
   footer { text-align: center; padding: 60px 20px; font-size: 12px; opacity: 0.4; border-top: 1px solid rgba(201,168,76,0.1); margin-top: 50px; }
 
+  /* --- HAMBURGER MENU --- */
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 200;
+  }
+  .hamburger span {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background: var(--gold);
+    margin: 5px 0;
+    transition: 0.3s;
+    border-radius: 2px;
+  }
+  .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+
   @media (max-width: 768px) {
-    .header-branding { flex-direction: column; text-align: center; }
-    .header-title { font-size: 1.6rem; white-space: normal; }
+    header.main-header { padding: 10px 5%; }
+    .header-branding { flex-direction: column; text-align: center; padding: 10px 0; }
+    .header-logo { height: 120px; }
+    .header-title { font-size: 1.5rem; white-space: normal; }
+
+    .hamburger { display: block; margin: 0 auto; }
+
+    .header-nav { border-top: none; padding-top: 0; }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      background: var(--dark-mid);
+      border: 1px solid rgba(201,168,76,0.2);
+      margin-top: 10px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { border-bottom: 1px solid rgba(201,168,76,0.1); }
+    .nav-links li:last-child { border-bottom: none; }
+    .nav-links a { display: block; padding: 15px 20px; text-align: center; font-size: 13px; }
+
+    .section-title { font-size: 1.8rem; }
+    .content-block p { font-size: 1rem; }
+    .form-container { padding: 20px 15px; }
     .form-row { grid-template-columns: 1fr; }
     .tshirt-grid { grid-template-columns: repeat(3, 1fr); }
-    .section-title { font-size: 2rem; }
+    .committee-grid { grid-template-columns: 1fr 1fr; gap: 15px; }
+    .committee-member { padding: 20px 10px; }
+    .member-photo { width: 80px; height: 80px; font-size: 1.5rem; }
+    .event-details-compact { flex-direction: column; gap: 20px; }
+    .fee-banner { margin: 0 10px 30px; }
+    .under-construction img { width: 120px; }
+    .under-construction h3 { font-size: 1.4rem; }
+    footer { padding: 30px 15px; }
+  }
+
+  @media (max-width: 480px) {
+    .header-logo { height: 90px; }
+    .header-title { font-size: 1.2rem; }
+    .section-title { font-size: 1.5rem; }
+    .committee-grid { grid-template-columns: 1fr; }
+    .tshirt-grid { grid-template-columns: repeat(3, 1fr); }
+    .btn-action, .submit-btn { font-size: 12px; letter-spacing: 2px; padding: 14px; }
   }
 </style>
 </head>
@@ -207,6 +267,9 @@
       <img src="Final_Logo.png" alt="Logo" class="header-logo">
       <h1 class="header-title">Club Des Alumni Du CACH</h1>
     </div>
+    <button class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
     <nav class="header-nav">
       <ul class="nav-links">
         <li><a onclick="showPage('home')" class="active">Accueil</a></li>
@@ -323,6 +386,12 @@
 <script>
   let participants = [];
 
+  // Hamburger Menu Toggle
+  function toggleMenu() {
+    document.querySelector('.hamburger').classList.toggle('open');
+    document.querySelector('.nav-links').classList.toggle('open');
+  }
+
   // Navigation
   function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -330,9 +399,14 @@
     document.getElementById(pageId).classList.add('active');
     
     const activeLink = Array.from(document.querySelectorAll('nav a')).find(a => 
-      a.getAttribute('onclick').includes(pageId)
+      a.getAttribute('onclick') && a.getAttribute('onclick').includes(pageId)
     );
     if(activeLink) activeLink.classList.add('active');
+
+    // Close mobile menu after navigation
+    document.querySelector('.hamburger').classList.remove('open');
+    document.querySelector('.nav-links').classList.remove('open');
+
     window.scrollTo(0,0);
   }
 
