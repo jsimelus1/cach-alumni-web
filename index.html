@@ -213,12 +213,17 @@
   .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
 
   @media (max-width: 768px) {
-    header.main-header { padding: 10px 5%; }
+    header.main-header { padding: 10px 5%; position: relative; }
     .header-branding { flex-direction: column; text-align: center; padding: 10px 0; }
     .header-logo { height: 120px; }
     .header-title { font-size: 1.5rem; white-space: normal; }
 
-    .hamburger { display: block; margin: 0 auto; }
+    .hamburger {
+      display: block;
+      position: absolute;
+      top: 15px;
+      left: 15px;
+    }
 
     .header-nav { border-top: none; padding-top: 0; }
     .nav-links {
@@ -263,13 +268,13 @@
 
 <header class="main-header text-center">
   <div class="container">
+    <button class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
     <div class="header-branding">
       <img src="Final_Logo.png" alt="Logo" class="header-logo">
       <h1 class="header-title">Club Des Alumni Du CACH</h1>
     </div>
-    <button class="hamburger" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
-    </button>
     <nav class="header-nav">
       <ul class="nav-links">
         <li><a onclick="showPage('home')" class="active">Accueil</a></li>
