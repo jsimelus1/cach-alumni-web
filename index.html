@@ -337,7 +337,7 @@
       </div>
       <div class="form-row">
         <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="email@exemple.com"></div>
-        <div class="form-group"><label>Promo / Status</label><select id="promotion"></select></div>
+        <div class="form-group"><label>Promotion / Status</label><select id="promotion"></select></div>
       </div>
       <div class="form-group">
         <label>Taille de T-Shirt</label>
@@ -503,7 +503,7 @@
 
       if (response.ok) {
         status.style.color = "var(--gold-light)";
-        status.innerHTML = "<strong>Succès ! Vos participants sont enregistrés.</strong>";
+        status.innerHTML = "<strong>Succès ! Vos participants sont enregistrés.Vous recevrez un couriel vous invitant à payer les frais d'inscription</strong>";
         participants = [];
         renderList();
       } else { throw new Error(); }
