@@ -326,7 +326,7 @@
 
     <div class="fee-banner">
       <div class="fee-label">FRAIS D'ENREGISTREMENT PAR PARTICIPANT</div>
-      <div class="fee-amount">$50.00 USD</div>
+      <div class="fee-amount">$25.00 USD Non-Remboursable</div>
     </div>
 
     <div class="form-container">
@@ -503,7 +503,7 @@
 
       if (response.ok) {
         status.style.color = "var(--gold-light)";
-        status.innerHTML = "<strong>Succès ! Vos participants sont enregistrés.Vous recevrez un couriel vous invitant à payer les frais d'inscription</strong>";
+        status.innerHTML = "<strong>Succès ! Vos participants sont enregistrés.Les frais de participations sont fixés à $100.00 USD. Les frais d'enregistrement sont non-remborsables. Vous recevrez un couriel vous invitant à payer les frais d'inscription</strong>";
         participants = [];
         renderList();
       } else { throw new Error(); }
