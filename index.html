@@ -144,7 +144,9 @@
     width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(201,168,76,0.3);
     color: white; padding: 14px; font-family: inherit; border-radius: 2px; outline: none;
   }
-  input:focus { border-color: var(--gold); background: rgba(255,255,255,0.1); }
+  select { background-color: var(--dark-mid); }
+  select option { background-color: var(--dark-mid); color: white; }
+  input:focus, select:focus { border-color: var(--gold); background: rgba(255,255,255,0.1); }
 
   .tshirt-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
   .tshirt-option input { display: none; }
@@ -349,12 +351,12 @@
     <div class="form-container">
       <h3 class="form-section-title">01. Enregistrer un participant</h3>
       <div class="form-row">
-        <div class="form-group"><label>Prénom</label><input type="text" id="fname" placeholder="First Name"></div>
-        <div class="form-group"><label>Nom</label><input type="text" id="lname" placeholder="Last Name"></div>
+        <div class="form-group"><label>Prénom</label><input type="text" id="fname" placeholder="First Name" required></div>
+        <div class="form-group"><label>Nom</label><input type="text" id="lname" placeholder="Last Name" required></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="email@exemple.com"></div>
-        <div class="form-group"><label>Promotion / Status</label><select id="promotion"></select></div>
+        <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="email@exemple.com" required></div>
+        <div class="form-group"><label>Promotion / Status</label><select id="promotion" required></select></div>
       </div>
       <div class="form-group">
         <label>Taille de T-Shirt</label>
@@ -463,8 +465,8 @@
     const pr = document.getElementById('promotion').value;
     const ts = document.querySelector('input[name="tsize"]:checked');
 
-    if(!fn || !ln || !ts) {
-      alert("Veuillez remplir les informations du participant (Nom, Prénom et Taille).");
+    if(!fn || !ln || !em || !ts) {
+      alert("Veuillez remplir tous les champs (Prénom, Nom, Email et Taille de T-Shirt).");
       return;
     }
 
