@@ -252,6 +252,57 @@
     opacity: 0.7;
   }
 
+  /* --- ZELLE QR PAYMENT --- */
+  .payment-confirmation {
+    max-width: 600px;
+    margin: 30px auto 0;
+    padding: 30px;
+    border: 1px solid rgba(201,168,76,0.3);
+    background: rgba(255,255,255,0.03);
+    text-align: center;
+  }
+  .payment-confirmation h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--gold-light);
+    margin-bottom: 15px;
+  }
+  .payment-confirmation p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    opacity: 0.85;
+  }
+  .qr-code-container {
+    background: #fff;
+    display: inline-block;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+  }
+  .qr-code-container canvas { display: block; }
+  .payment-warning {
+    background: rgba(139,26,26,0.4);
+    border: 1px solid var(--red);
+    padding: 15px;
+    margin: 20px 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .payment-status-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 3px;
+    margin-left: 10px;
+  }
+  .status-unpaid { background: rgba(139,26,26,0.6); color: #fff; }
+  .status-registered { background: rgba(201,168,76,0.4); color: var(--gold-light); }
+  .status-paid { background: rgba(39,174,96,0.4); color: #27ae60; }
+
   /* --- CART BADGE --- */
   .cart-badge {
     display: inline-block;
@@ -575,20 +626,16 @@
 <main>
   <section id="home" class="page active">
     <h2 class="section-title">Un Héritage d'Excellence</h2>
-
     <div class="hero-image-wrap">
       <img src="Pictures/CACH-Building.png" alt="Collège Adventiste du Cap-Haïtien">
-      <!--
       <div class="hero-overlay">
-      <p class="hero-subtitle">Collège Adventiste du Cap-Haïtien — Depuis 1981</p>
+        <p class="hero-subtitle">Collège Adventiste du Cap-Haïtien — Depuis 1946</p>
       </div>
-      -->
     </div>
 
     <div class="home-motto">
       <p>« Entrer pour s'instruire — Partir au monde pour servir »</p>
     </div>
-
     <div class="content-block">
       <p>Le Club des Alumni du C.A.C.H. est le cœur battant de notre histoire commune, un espace vivant où se croisent les souvenirs, les amitiés et les ambitions de plusieurs générations d'anciens élèves. Depuis sa fondation, le Collège Adventiste du Cap-Haïtien a été un phare de rigueur académique et de formation spirituelle, façonnant non seulement des esprits brillants, mais aussi des âmes engagées au service de Dieu et de leur prochain. Les salles de classe, les moments de culte, les chants entonnés en chœur et les leçons reçues de maîtres dévoués ont laissé en chacun de nous une empreinte indélébile. Notre club existe pour veiller à ce que la flamme allumée durant nos années d'école continue de briller intensément à travers le monde, peu importe où la vie nous a menés.</p>
       <p>Nous sommes convaincus que notre réussite collective est le reflet des fondations posées au C.A.C.H., où nous avons appris la discipline du travail, la valeur de l'intégrité et l'importance d'une foi vivante. Chaque ancien porte en lui une parcelle de cet héritage, qu'il soit médecin, ingénieur, éducateur, pasteur, entrepreneur ou serviteur communautaire. En rassemblant des professionnels, des leaders et des visionnaires issus de toutes les promotions, nous créons un écosystème de mentorat et d'opportunités où les plus jeunes peuvent s'inspirer du parcours des aînés, et où les aînés trouvent à leur tour une nouvelle énergie au contact des générations montantes. Cette dynamique intergénérationnelle est l'une des plus grandes richesses de notre association.</p>
@@ -671,11 +718,12 @@ Cette même année, je me suis établie aux États-Unis où j'ai obtenu une lice
   <section id="contact" class="page">
     <h2 class="section-title">Nous Contacter</h2>
     <div class="form-container">
-      <form name="contact" method="POST" data-netlify="true">
-        <div class="form-group"><label>Nom Complet</label><input type="text" name="name" required></div>
-        <div class="form-group"><label>Email</label><input type="email" name="email" required></div>
-        <div class="form-group"><label>Message</label><textarea name="message" rows="5" required></textarea></div>
+      <form id="contactForm" onsubmit="submitContact(event)">
+        <div class="form-group"><label>Nom Complet</label><input type="text" id="contactName" required></div>
+        <div class="form-group"><label>Email</label><input type="email" id="contactEmail" required></div>
+        <div class="form-group"><label>Message</label><textarea id="contactMessage" rows="5" required></textarea></div>
         <button type="submit" class="submit-btn">Envoyer le Message</button>
+        <div id="contactStatus" style="text-align:center; margin-top:15px;"></div>
       </form>
     </div>
   </section>
@@ -1039,7 +1087,7 @@ Cette même année, je me suis établie aux États-Unis où j'ai obtenu une lice
     status.textContent = 'Création du compte...';
 
     try {
-      const res = await fetch('/.netlify/functions/members', {
+      const res = await fetch('/api/members', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'register', firstname: fn, lastname: ln, email: em, promo: promo, password: pw })
@@ -1076,7 +1124,7 @@ Cette même année, je me suis établie aux États-Unis où j'ai obtenu une lice
     status.textContent = 'Connexion...';
 
     try {
-      const res = await fetch('/.netlify/functions/members', {
+      const res = await fetch('/api/members', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'login', email: em, password: pw })
@@ -1182,14 +1230,60 @@ Cette même année, je me suis établie aux États-Unis où j'ai obtenu une lice
     const status = document.getElementById('regStatus');
     status.innerHTML = "<em>Enregistrement de la liste en cours...</em>";
     try {
-      const response = await fetch('/.netlify/functions/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ group: participants }) });
+      const response = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ group: participants }) });
+      const data = await response.json();
       if (response.ok) {
+        const count = participants.length;
+        const regTotal = count * 25;
+        const fullTotal = count * 100;
         status.style.color = "var(--gold-light)";
-        status.innerHTML = "<strong>Succès ! Vos participants sont enregistrés.Les frais de participations sont fixés à $100.00 USD. Les frais d'enregistrement sont non-remboursables. Pour procéder au paiement, veuillez nous envoyer un Zelle au numéro suivant : (954) 937-3027. Il est très important d'ajouter la note « CACH REUNION » lors de votre envoi, car le compte appartient à l'église Adventiste Emmanuel. Si cette note n'est pas indiquée, le montant sera versé au fonds de l'église en tant qu'offrande.</strong>";
+        status.innerHTML = '<div class="payment-confirmation">' +
+          '<h3>✓ Inscription Réussie !</h3>' +
+          '<p><strong>' + count + ' participant(s)</strong> enregistré(s) avec succès.</p>' +
+          '<div style="margin:20px 0; padding:15px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3);">' +
+            '<p style="margin:0 0 5px;"><strong>Frais d\'enregistrement:</strong> $' + regTotal.toFixed(2) + ' USD ($25 x ' + count + ')</p>' +
+            '<p style="margin:0;"><strong>Paiement complet:</strong> $' + fullTotal.toFixed(2) + ' USD ($100 x ' + count + ')</p>' +
+          '</div>' +
+          '<p>Pour procéder au paiement, veuillez nous envoyer un <strong>Zelle</strong> au numéro suivant :</p>' +
+          '<p style="font-size:1.4rem; font-weight:700; color:var(--gold-light);">(954) 937-3027</p>' +
+          '<div id="zelleQR" class="qr-code-container"></div>' +
+          '<div class="payment-warning">' +
+            '<strong>⚠️ IMPORTANT :</strong> Ajoutez la note <strong>« CACH REUNION »</strong> lors de votre envoi. ' +
+            'Le compte appartient à l\'église. Si cette note n\'est pas indiquée, le montant sera versé au fonds de l\'église en tant qu\'offrande.' +
+          '</div>' +
+          '<p style="opacity:0.7; font-size:0.85rem;">Les frais d\'enregistrement ($25) sont inclus dans les frais de participation ($100).<br>Tous les frais sont non-remboursables.</p>' +
+        '</div>';
+        generateZelleQR();
         participants = []; renderList();
       } else { throw new Error(); }
     } catch (err) { status.style.color = "#ff6b6b"; status.innerText = "Erreur technique lors de l'enregistrement."; }
   });
+
+  // Generate Zelle QR Code using Google Charts API (no JS library needed)
+  function generateZelleQR() {
+    const container = document.getElementById('zelleQR');
+    if (!container) return;
+    container.innerHTML = '';
+    const zelleData = 'https://enroll.zellepay.com/qr-codes?data=eyJuYW1lIjoiQ0FDSCBSRVVOSU9OIiwidG9rZW4iOiI5NTQ5MzczMDI3IiwiYWN0aW9uIjoicGF5bWVudCJ9';
+    const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=6D1ED4&data=' + encodeURIComponent(zelleData);
+    const img = document.createElement('img');
+    img.src = qrUrl;
+    img.alt = 'Zelle QR Code - (954) 937-3027';
+    img.style.cssText = 'width:200px; height:200px; display:block;';
+    img.onerror = function() {
+      // Fallback if API is blocked
+      container.innerHTML = '<div style="width:200px;height:200px;background:#6D1ED4;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;">' +
+        '<span style="color:#fff;font-weight:700;font-size:18px;">Zelle</span>' +
+        '<span style="color:#fff;font-size:13px;margin-top:10px;">Envoyez à:</span>' +
+        '<span style="color:#fff;font-weight:700;font-size:20px;margin-top:5px;">(954) 937-3027</span>' +
+        '<span style="color:#fff;font-size:11px;margin-top:10px;">Note: CACH REUNION</span></div>';
+    };
+    container.appendChild(img);
+    const label = document.createElement('p');
+    label.style.cssText = 'margin:10px 0 0; font-size:12px; font-weight:700; color:#6D1ED4;';
+    label.textContent = 'Scannez avec votre app Zelle';
+    container.appendChild(label);
+  }
 
   // --- MERCH CART ---
   let cart = [];
@@ -1306,7 +1400,7 @@ Cette même année, je me suis établie aux États-Unis où j'ai obtenu une lice
     status.style.color = 'var(--gold-light)'; status.textContent = 'Envoi de la commande...';
 
     try {
-      const res = await fetch('/.netlify/functions/orders', {
+      const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1332,6 +1426,26 @@ Cette même année, je me suis établie aux États-Unis où j'ai obtenu une lice
       status.style.color = '#ff6b6b'; status.textContent = 'Erreur de connexion au serveur.';
     }
   }
+  // --- CONTACT FORM ---
+  async function submitContact(e) {
+    e.preventDefault();
+    const name = document.getElementById('contactName').value.trim();
+    const email = document.getElementById('contactEmail').value.trim();
+    const message = document.getElementById('contactMessage').value.trim();
+    const status = document.getElementById('contactStatus');
+    if (!name || !email || !message) { status.style.color = '#ff6b6b'; status.textContent = 'Veuillez remplir tous les champs.'; return; }
+    status.style.color = 'var(--gold-light)'; status.textContent = 'Envoi en cours...';
+    try {
+      const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, message }) });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        status.style.color = 'var(--gold-light)'; status.textContent = '✓ Message envoyé avec succès !';
+        document.getElementById('contactName').value = ''; document.getElementById('contactEmail').value = ''; document.getElementById('contactMessage').value = '';
+      } else { status.style.color = '#ff6b6b'; status.textContent = data.error || 'Erreur.'; }
+    } catch(e) { status.style.color = '#ff6b6b'; status.textContent = 'Erreur de connexion au serveur.'; }
+  }
 </script>
 </body>
 </html>
+
+<script>
